@@ -1,0 +1,47 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://a207963-idt-vat-dev-use1-aurora-cluster.cluster-c69sniltamfr.us-east-1.rds.amazonaws.com:5432/postgres
+        username: vat_a_001_001
+        password: vat_a_001_001
+    jpa:
+        properties:
+            hibernate:
+                show_sql: false
+                use_sql_comments: false
+                format_sql: false
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: update
+    #liquibase:
+     #   enabled: false
+vat:
+    validation:
+        de:
+            url: https://evatr.bff-online.de/evatrRPC?
+            quartz-expression: 0 0/1 * * * ?
+        uk:
+            url: https://test-api.service.hmrc.gov.uk/organisations/vat/check-vat-number/lookup/
+            quartz-expression: 0 0/1 * * * ?
+        vies:
+            url: http://ec.europa.eu/taxation_customs/vies/services/checkVatService
+            quartz-expression: 0 0/1 * * * ?
+        location:
+            service:
+                url: http://localhost:8080/validations/
+        statuscheck:
+            quartz-expression: 0 0/1 * * * ?
+
+logging:
+    level:
+        org:
+            hibernate:
+                type=trace: error
+management:
+    endpoint:
+        health:
+            show-details: always
+# Change log file location:
+spring.liquibase.change-log: classpath:liquibase/vat-db-master.xml
+
+# url to load the logback xml file from config server
+#logging.config: ${spring.cloud.config.uri}/${spring.application.name}/vat-validations/${spring.cloud.config.label:master}/logback-spring.xml
